@@ -1,4 +1,4 @@
-bool valveError = false;
+bool capacitiveSoilMoistureSensorError = false;
 
 void turnOnValve() {
   digitalWrite(16, HIGH);
@@ -9,7 +9,7 @@ void turnOffValve() {
 }
 
 void irrigate(int humidity, long startTime) {
-  if (!valveError) {
+  if (!capacitiveSoilMoistureSensorError) {
     turnOnValve();
     Serial.println("Irrigating...");
   }
@@ -17,11 +17,11 @@ void irrigate(int humidity, long startTime) {
   delay(30000);
 
   int currentHumidity = readHumidity();
-  if (currentHumidity <= humidity && !valveError) {
+  if (currentHumidity <= humidity && !capacitiveSoilMoistureSensorError) {
     Serial.println("Capacitive Soil Moisture Sensor Error");
     Serial.println("Initial Humidity is: " + String(humidity) + " and Current Humidity is: " + String(currentHumidity));
     turnOffValve();
-    valveError = true;
+    capacitiveSoilMoistureSensorError = true;
   }
 
   Serial.println("Stopping watering, the current humidity is: " + String(currentHumidity));
