@@ -9,11 +9,12 @@ void setup() {
 void loop() {
   int humidity = readHumidity();
 
-  if (humidity < 40) {
-    turnOnValve();
-  } else {
-    turnOffValve();
+  if (humidity > 100) {
+    // Launch error to ThingSpeak
+    Serial.println("Capacitive Soil Moisture Sensor Error!!!");
+  } else if (humidity < 40) {
+    irrigate(humidity, millis());
   }
 
-  delay(30000);
+  delay(60000);
 }
