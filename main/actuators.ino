@@ -25,4 +25,5 @@ void irrigate(int humidity, long startTime) {
   }
 
   Serial.println("Stopping watering, the current humidity is: " + String(currentHumidity));
+  turnOffValve();
 }
