@@ -4,6 +4,9 @@ void setup() {
 
   pinMode(16, OUTPUT);
   conectWifi();
+  delay(2000);
+
+  ntpStart();
 }
 
 void loop() {
