@@ -21,6 +21,9 @@ void loop() {
     } else if (humidity < 40) {
       irrigate(humidity);
     }
+  } else {
+    sprintf(thingSpeakDataString, "field1=%d&field2=%d&field3=%d", humidity, 0, 0);
+    sendDataToThingSpeak(thingSpeakDataString);
   }
 
   delay(1200000);
