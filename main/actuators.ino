@@ -9,7 +9,7 @@ void turnOffValve() {
   digitalWrite(16, LOW);
 }
 
-void irrigate(int humidity, long startTime) {
+void irrigate(int humidity) {
   if (!capacitiveSoilMoistureSensorError) {
     sprintf(thingSpeakDataString, "field1=%d&field2=%d&field3=%d", humidity, 1, 0);
     sendDataToThingSpeak(thingSpeakDataString);
