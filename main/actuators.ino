@@ -1,4 +1,5 @@
 bool capacitiveSoilMoistureSensorError = false;
+char thingSpeakDataString[100] = {0};
 
 void turnOnValve() {
   digitalWrite(16, HIGH);
@@ -10,20 +11,28 @@ void turnOffValve() {
 
 void irrigate(int humidity, long startTime) {
   if (!capacitiveSoilMoistureSensorError) {
-    turnOnValve();
-    Serial.println("Irrigating...");
-  }
+    sprintf(thingSpeakDataString, "field1=%d&field2=%d&field3=%d", humidity, 1, 0);
+    sendDataToThingSpeak(thingSpeakDataString);
 
-  delay(30000);
+    Serial.println("Irrigating...");
+    turnOnValve();
+    delay(30000);
+    turnOffValve();
+  }
 
   int currentHumidity = readHumidity();
   if (currentHumidity <= humidity && !capacitiveSoilMoistureSensorError) {
     Serial.println("Capacitive Soil Moisture Sensor Error");
     Serial.println("Initial Humidity is: " + String(humidity) + " and Current Humidity is: " + String(currentHumidity));
-    turnOffValve();
     capacitiveSoilMoistureSensorError = true;
   }
 
-  Serial.println("Stopping watering, the current humidity is: " + String(currentHumidity));
-  turnOffValve();
+  if (capacitiveSoilMoistureSensorError) {
+    sprintf(thingSpeakDataString, "field1=%d&field2=%d&field3=%d", currentHumidity, 0, 1);
+    sendDataToThingSpeak(thingSpeakDataString);
+    return;
+  }
+
+  sprintf(thingSpeakDataString, "field1=%d&field2=%d&field3=%d", currentHumidity, 0, 0);
+  sendDataToThingSpeak(thingSpeakDataString);
 }
