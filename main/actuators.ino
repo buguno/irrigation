@@ -16,7 +16,7 @@ void irrigate(int humidity) {
 
     Serial.println("Irrigating...");
     turnOnValve();
-    delay(60000);
+    delay(240000);
     turnOffValve();
   }
 
