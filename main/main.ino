@@ -20,10 +20,13 @@ void loop() {
       sprintf(thingSpeakDataString, "field1=%d&field2=%d&field3=%d", humidity, 0, 1);
       sendDataToThingSpeak(thingSpeakDataString);
       Serial.println("Capacitive Soil Moisture Sensor Error!!!");
-    } else if (humidity < 40) {
+    } else if (humidity >= 0 && humidity <= 40) {
       irrigationStarted = millis();
       irrigate(humidity);
       irrigationFinished = millis();
+    } else {
+      sprintf(thingSpeakDataString, "field1=%d&field2=%d&field3=%d", humidity, 0, 0);
+      sendDataToThingSpeak(thingSpeakDataString);
     }
   } else {
     sprintf(thingSpeakDataString, "field1=%d&field2=%d&field3=%d", humidity, 0, 0);
